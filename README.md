@@ -1,6 +1,6 @@
-# {{ name }}
+# 谷粒学院前台--学生端
 
-> {{ description }}
+> 谷粒学院前台nuxt基本框架
 
 ## Build Setup
 
