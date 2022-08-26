@@ -2,22 +2,12 @@
 
 > 谷粒学院前台nuxt基本框架
 
-## Build Setup
+小组成员：周国辉 李阳 林盛义 朱思翰
 
-``` bash
-# install dependencies
-$ npm install # Or yarn install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
-
+功能分工
+1. 首页数据显示 -----李阳
+2. 讲师列表和详情------李阳
+3. 课程列表和课程详情----林盛义  
+4. 登录和注册功能-------周国辉 朱思翰
+5. 微信扫描登录---------周国辉
+6. 微信扫描支付（假支付）-----朱思翰 
