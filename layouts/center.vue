@@ -13,7 +13,6 @@
           </a>
         </h1>
         <div class="h-r-nsl">
-          <!-- 固定路由跳转 -->
           <ul class="nav">
             <router-link to="/" tag="li" active-class="current" exact>
               <a>首页</a>
@@ -33,7 +32,6 @@
           </ul>
           <!-- / nav -->
           <ul class="h-r-login">
-            <!-- 判断是否显示用户信息 -->
             <li v-if="!loginInfo.id" id="no-login">
               <a href="/login" title="登录">
                 <em class="icon18 login-icon">&nbsp;</em>
@@ -51,7 +49,7 @@
               <q class="red-point" style="display: none">&nbsp;</q>
             </li>
             <li v-if="loginInfo.id" id="is-login-two" class="h-r-user">
-              <a href="/ucenter/basic" title>
+              <a href="/ucenter" title>
                 <el-dropdown>
                   <span class="el-dropdown-link">
                     <img
@@ -91,19 +89,18 @@
             <!-- /未登录显示第1 li；登录后显示第2，3 li -->
           </ul>
           <aside class="h-r-search">
-            <form action="#" method="post">
-              <label class="h-r-s-box">
-                <input
-                  type="text"
-                  placeholder="输入你想学的课程"
-                  name="queryCourse.courseName"
-                  value
-                />
-                <button type="submit" class="s-btn">
-                  <em class="icon18">&nbsp;</em>
-                </button>
-              </label>
-            </form>
+            <!--            <form action="#" method="post">-->
+            <label class="h-r-s-box">
+              <input
+                type="text"
+                placeholder="输入你想学的课程"
+                value
+                v-model="keyword"
+              />
+              <button type="submit" class="s-btn" @click="handSearch">
+                <em class="icon18">&nbsp;</em>
+              </button>
+            </label>
           </aside>
         </div>
         <aside class="mw-nav-btn">
@@ -112,12 +109,35 @@
         <div class="clear"></div>
       </section>
     </header>
-
     <!-- /公共头引入 -->
 
-    <!-- 加载pages目录文件 -->
-    <nuxt />
-    <!-- 加载pages目录文件 -->
+    <div id="aCoursesList" class="container">
+      <el-container>
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+          <el-menu :router="true" default-openeds="[1,2]">
+            <el-submenu index="1">
+              <template slot="title"
+                ><i class="el-icon-user-solid"></i>个人信息</template
+              >
+              <el-menu-item-group>
+                <el-menu-item index="1-1" :route="{ path: '/ucenter/basic' }"
+                  >基本信息</el-menu-item
+                >
+                <el-menu-item index="1-2" :route="{ path: '/ucenter/password' }"
+                  >修改密码</el-menu-item
+                >
+              </el-menu-item-group>
+            </el-submenu>
+          </el-menu>
+        </el-aside>
+
+        <el-container>
+          <el-main>
+            <nuxt />
+          </el-main>
+        </el-container>
+      </el-container>
+    </div>
 
     <!-- 公共底引入 -->
     <footer id="footer">
@@ -149,7 +169,7 @@
                 <span>服务热线：010-111111(北京) 0755-1313115(深圳)</span>
               </section>
               <section class="b-f-link mt10">
-                <span>©2022课程 版权鸣谢谷粒学院</span>
+                <span>©2022 谷粒学院</span>
               </section>
             </section>
           </section>
@@ -208,6 +228,7 @@ export default {
   created() {
     //获取url中的token
     this.token = this.$route.query.token;
+
     //如果url中有token，表示采用微信登录
     if (this.token) {
       this.wxLogin();
@@ -224,7 +245,7 @@ export default {
 
       //登录成功根据token获取用户信息
       userAPI.getUserInfo().then((response) => {
-        this.loginInfo = response.data;
+        this.loginInfo = response.data.userInfo;
         //将用户信息存入cookie,token domain修改
         cookie.set("oes_ucenter", JSON.stringify(this.loginInfo), {
           domain: "localhost",
@@ -239,7 +260,6 @@ export default {
       //采用JSON.parse将字符串转化为json  {'name' : wcd ,'age' : 20}
       var userStr = cookie.get("oes_ucenter");
       if (typeof(userStr) != "undefined" && userStr != "") {
-        console.log(userStr)
         this.loginInfo = JSON.parse(userStr);
       }
     },
@@ -255,3 +275,12 @@ export default {
   },
 };
 </script>
+<style>
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+</style>
